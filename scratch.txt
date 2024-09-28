@@ -1,18 +1,7 @@
-The grid
-- x,y = 41,30
-- width = 16
-so:
-local x,y = 41,30
-local grid = {}
-for i=1, 3 do
-	local row = {}
-	for i=1, 3 do
-		add(row, {x,y})
-		x += 16
-	end
-	add(grid, row)
-	y += 16
-	x = 41
-end
-
-end result is a 2 array, with item holding the xy value of the square
+The tile
+- size 14
+- border_color 2
+- face_color 3
+- face, 
+	x y = grid_x + 2, grid_y + 2
+	face_width = 10

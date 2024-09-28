@@ -5,7 +5,22 @@ __lua__
 function _init()
   counter = 0
   #include create_grid.lua
+  #include create_tile.lua
+  #include tile_values.lua
+
   grid = create_grid(41,30,16)
+  tiles = {}
+  tile_colors = {14,12,11,9,8}
+
+  for row in all(grid) do
+    for cell in all(row) do
+      local x, y = cell[1], cell[2]
+      local color_index = (flr(rnd(#tile_colors)) + 1)
+      local value = (flr(rnd(6)) + 1)
+      local tile = create_tile(x,y,tile_colors[color_index],value)
+      add(tiles, tile)
+    end
+  end
 end
 
 function _update()
@@ -17,15 +32,11 @@ function _draw()
   -- bg
 
   rectfill(0,0,127,127,13)
-  -- draw grid
-  local col = 1
-  for row in all(grid) do
-    for cell in all(row) do
-      local x, y = cell[1], cell[2]
-      rectfill(x, y, x + 15, y + 15, col)
-      col += 1
-    end
+
+  for tile in all(tiles) do
+    tile:draw()
   end
+
   -- check grid
   pset(41,30,11)
   pset(86,30,11)
