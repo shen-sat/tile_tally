@@ -4,18 +4,8 @@ version 32
 __lua__
 function _init()
   counter = 0
-  local x,y = 41,30
-  grid = {}
-  for i=1, 3 do
-    local row = {}
-    for i=1, 3 do
-      add(row, {x,y})
-      x += 15
-    end
-    add(grid, row)
-    y += 15
-    x = 41
-  end
+  #include create_grid.lua
+  grid = create_grid(41,30,16)
 end
 
 function _update()
@@ -25,7 +15,9 @@ end
 function _draw()
   cls()
   -- bg
+
   rectfill(0,0,127,127,13)
+  -- draw grid
   local col = 1
   for row in all(grid) do
     for cell in all(row) do
@@ -34,7 +26,7 @@ function _draw()
       col += 1
     end
   end
-  -- checks
+  -- check grid
   pset(41,30,11)
   pset(86,30,11)
   pset(41,77,11)
