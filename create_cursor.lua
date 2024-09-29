@@ -35,36 +35,22 @@ function create_cursor(x,y)
         if grid[self.grid_x][next_grid_y] then self.grid_y -= 1 end
       -- right
       elseif btnp(1) then
-        if self:edge() == 'top' then
-          local next_grid_y = self.grid_y + 1
-          if grid[self.grid_x][next_grid_y] then 
-            self.grid_y += 1
-          else
-            self.edge_index += 1
-          end
-        elseif self:edge() == 'right' then
-          local next_grid_x = self.grid_x + 1
-          if grid[self.grid_x][next_grid_x] then 
-            self.grid_x += 1
-          else
-            self.edge_index += 1
-          end
-        elseif self:edge() == 'bottom' then
-          local next_grid_y = self.grid_y - 1
-          if grid[self.grid_x][next_grid_y] then 
-            self.grid_y -= 1
-          else
-            self.edge_index += 1
-          end
-        elseif self:edge() == 'left' then
-          local next_grid_x = self.grid_x - 1
-          if grid[self.grid_x][next_grid_x] then 
-            self.grid_x -= 1
-          else
-            self.edge_index += 1
-          end
-        end
-        
+        local map = {
+          top = { 'grid_y', 1 },
+          right = { 'grid_x', 1 },
+          bottom = { 'grid_y', -1 },
+          left = { 'grid_x', -1 },
+        }
+
+        self:workout(map[self:edge()][1], map[self:edge()][2])        
+      end
+    end,
+    workout = function(self, attribute, value)
+      local next_index = self[attribute] + value
+      if grid[self.grid_x][next_index] then 
+        self[attribute] += value
+      else
+        self.edge_index += 1
       end
     end
   }
