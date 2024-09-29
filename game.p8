@@ -7,10 +7,12 @@ function _init()
   #include create_grid.lua
   #include create_tile.lua
   #include tile_values.lua
+  #include create_cursor.lua
 
   grid = create_grid(41,30,16)
   tiles = {}
   tile_colors = {14,12,11,9,8}
+  cursor = create_cursor(1,1)
 
   for row in all(grid) do
     for cell in all(row) do
@@ -25,6 +27,7 @@ end
 
 function _update()
   counter = counter + 1
+  cursor:update()
 end 
 
 function _draw()
@@ -38,9 +41,13 @@ function _draw()
   end
 
   -- check grid
-  pset(41,30,11)
-  pset(86,30,11)
-  pset(41,77,11)
-  pset(86,77,11)
+  -- pset(41,30,11)
+  -- pset(86,30,11)
+  -- pset(41,77,11)
+  -- pset(86,77,11)
+
+  --cursor
+  cursor:draw()
+
   print(counter, 7, 7)
 end
