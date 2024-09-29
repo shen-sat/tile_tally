@@ -31,17 +31,13 @@ function create_cursor(x,y)
     update = function(self)
       -- left
       if btnp(0) then
-        local map = self.map(-1)
-
-        self:workout(map[self:edge()][1], map[self:edge()][2], -1)
+        self:move(-1)
       -- right
       elseif btnp(1) then
-        local map = self.map(1)
-
-        self:workout(map[self:edge()][1], map[self:edge()][2], 1)        
+        self:move(1)
       end
     end,
-    map = function(value)
+    move = function(self, value)
       local map = {
         top = { 'grid_y', value },
         right = { 'grid_x', value },
@@ -49,14 +45,14 @@ function create_cursor(x,y)
         left = { 'grid_x', -1 * value },
       }
 
-      return map
-    end,
-    workout = function(self, attribute, value, foobar)
-      local next_index = self[attribute] + value
+      local grid_axis = map[self:edge()][1]
+      local increment = map[self:edge()][2]
+
+      local next_index = self[grid_axis] + increment
       if grid[self.grid_x][next_index] then 
-        self[attribute] += value
+        self[grid_axis] += increment
       else
-        self.edge_index += foobar
+        self.edge_index += value
       end
     end
   }
