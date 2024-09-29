@@ -2,6 +2,7 @@ function create_cursor(x,y)
   local color = 7
   local start_grid_x = 1
   local start_grid_y = 1
+  local size = 6
   local cursor = {
     grid_x = start_grid_x,
     grid_y = start_grid_y,
@@ -16,17 +17,19 @@ function create_cursor(x,y)
       local x = cell[1]
       local y = cell[2]
       if self:edge() == 'top' then
-        x += 6
+        x += (45 - 41)
+        y -= (30 - 17)
       elseif self:edge() == 'right' then
-        x += 12
-        y += 6
+        x += (94 - 73)
+        y += (33-30)
       elseif self:edge() == 'bottom' then
-        x += 6
-        y += 13
+        x += (77-73)
+        y += (83-62)
       elseif self:edge() == 'left' then
-        y += 6
+        x -= (41-28)
+        y += (65-62)
       end
-      pset(x,y,color)
+      rectfill(x,y,x + (size - 1), y + (size - 1), 7)
     end,
     update = function(self)
       -- left
