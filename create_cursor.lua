@@ -6,7 +6,7 @@ function create_cursor(x,y)
   local cursor = {
     x = x,
     y = y,
-    -- tile = create_tile(x,y,11,3),
+    tile = create_tile(x,y,7,3),
     grid_x = start_grid_x,
     grid_y = start_grid_y,
     edge_index = 0,
@@ -17,7 +17,7 @@ function create_cursor(x,y)
     end,
     draw = function(self)
       rectfill(self.x,self.y,self.x + (size - 1), self.y + (size - 1), 7)
-      -- self.tile:draw()
+      self.tile:draw()
     end,
     update = function(self)
       -- anticlockwise
@@ -28,7 +28,7 @@ function create_cursor(x,y)
         self:update_tile_position(1)
       end
       self:update_x_y()
-      -- self:update_tile()
+      self:update_tile()
     end,
     update_x_y = function(self)
       local cell = grid[self.grid_x][self.grid_y]
@@ -49,10 +49,19 @@ function create_cursor(x,y)
       end
     end,
     update_tile = function(self)
-      self.tile.x = self.x - (28-14)
-      self.tile.y = self.y - (33-30)
-      -- - cursor: 28,33
-      -- - tile: 14,30
+      if self:edge() == 'top' then
+        self.tile.x = self.x - (45-41)
+        self.tile.y = self.y - (17-3)
+      elseif self:edge() == 'right' then
+        self.tile.x = self.x + (100-94)
+        self.tile.y = self.y - (65-62)
+      elseif self:edge() == 'bottom' then
+        self.tile.x = self.x - (77-73)
+        self.tile.y = self.y + (89-83)
+      elseif self:edge() == 'left' then
+        self.tile.x = self.x - (28-14)
+        self.tile.y = self.y - (33-30)
+      end
     end,
     update_tile_position = function(self, value)
       local map = {

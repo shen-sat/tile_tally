@@ -7,10 +7,10 @@ function create_tile(x,y,face_color,value)
     y = y,
     draw = function(self)
       -- border
-      rectfill(x,y,x + size - 1, y + size - 1, border_color)
+      rectfill(self.x,self.y,self.x + size - 1, self.y + size - 1, border_color)
       -- face
-      local face_x = x + 2
-      local face_y = y + 1 
+      local face_x = self.x + 2
+      local face_y = self.y + 1 
       rectfill(face_x, face_y, face_x + face_size - 1, face_y + face_size - 1, face_color)
       -- value
       local tile_values = tile_values(self)
