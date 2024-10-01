@@ -4,6 +4,9 @@ function create_cursor(x,y)
   local start_grid_y = 1
   local size = 6
   local cursor = {
+    x = x,
+    y = y,
+    -- tile = create_tile(x,y,11,3),
     grid_x = start_grid_x,
     grid_y = start_grid_y,
     edge_index = 0,
@@ -13,34 +16,45 @@ function create_cursor(x,y)
       return edges[index]
     end,
     draw = function(self)
-      local cell = grid[self.grid_x][self.grid_y]
-      local x = cell[1]
-      local y = cell[2]
-      if self:edge() == 'top' then
-        x += (45 - 41)
-        y -= (30 - 17)
-      elseif self:edge() == 'right' then
-        x += (94 - 73)
-        y += (33-30)
-      elseif self:edge() == 'bottom' then
-        x += (77-73)
-        y += (83-62)
-      elseif self:edge() == 'left' then
-        x -= (41-28)
-        y += (65-62)
-      end
-      rectfill(x,y,x + (size - 1), y + (size - 1), 7)
+      rectfill(self.x,self.y,self.x + (size - 1), self.y + (size - 1), 7)
+      -- self.tile:draw()
     end,
     update = function(self)
-      -- left
+      -- anticlockwise
       if btnp(0) then
-        self:move(-1)
-      -- right
+        self:update_tile_position(-1)
+      -- clockwise
       elseif btnp(1) then
-        self:move(1)
+        self:update_tile_position(1)
+      end
+      self:update_x_y()
+      -- self:update_tile()
+    end,
+    update_x_y = function(self)
+      local cell = grid[self.grid_x][self.grid_y]
+      self.x = cell[1]
+      self.y = cell[2]
+      if self:edge() == 'top' then
+        self.x += (45 - 41)
+        self.y -= (30 - 17)
+      elseif self:edge() == 'right' then
+        self.x += (94 - 73)
+        self.y += (33-30)
+      elseif self:edge() == 'bottom' then
+        self.x += (77-73)
+        self.y += (83-62)
+      elseif self:edge() == 'left' then
+        self.x -= (41-28)
+        self.y += (65-62)
       end
     end,
-    move = function(self, value)
+    update_tile = function(self)
+      self.tile.x = self.x - (28-14)
+      self.tile.y = self.y - (33-30)
+      -- - cursor: 28,33
+      -- - tile: 14,30
+    end,
+    update_tile_position = function(self, value)
       local map = {
         top = { 'grid_y', value },
         right = { 'grid_x', value },
