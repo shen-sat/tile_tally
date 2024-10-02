@@ -8,11 +8,13 @@ function _init()
   #include create_tile.lua
   #include tile_values.lua
   #include create_cursor.lua
+  #include create_stack.lua
 
   grid = create_grid(41,30,16)
   tiles = {}
   tile_colors = {14,12,11,9,8}
   cursor = create_cursor(1,1)
+  stack = create_stack()
 
   for row in all(grid) do
     for cell in all(row) do
@@ -28,6 +30,7 @@ end
 function _update()
   counter = counter + 1
   cursor:update()
+  stack:update()
 end 
 
 function _draw()
@@ -48,6 +51,8 @@ function _draw()
 
   --cursor
   cursor:draw()
+
+  stack:draw()
 
   print(counter, 7, 7)
 end
